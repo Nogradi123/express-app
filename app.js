@@ -2,6 +2,8 @@ const express = require('express');
 const app = express ();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const session = require('express-session')
+const MongoStore = require('connect-mongo')
 const PORT = 3000;
 // const axios = require('axios');
 // variables and declarations always at the top of the file 
@@ -20,6 +22,8 @@ mongoose                        //    |
 // ===========================================================
 
 
+
+
 // middleware always comes between declarations and routes 
 // ============ MIDDLEWARE ==========
 app.use(bodyParser.json());
@@ -35,13 +39,35 @@ app.set("view engine", "hbs");
 // ==================================
 
 
+
+app.use(
+  session({
+    secret: '123secret',
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 600000
+    }, // ADDED code below !!!
+    store: MongoStore.create({
+      mongoUrl: 'mongodb://localhost/expressApp'
+    })
+  })
+);
+
+
+app.use(function (req, res, next) {
+  res.locals.theUser = req.session.currentlyLoggedIn;
+  next();
+})
+
 // ================== ROUTES ====================
 
 // this is what determines the prefix to your routes within the file that you are requiring. If you add '/blah' then all the routes in your index file would have to start with /blah before any route defined. ie: you create a route in index.js that has an endpoint of '/home' but you prefixed '/blah' in the app.js to require index.js, your end result of the route would then be www.domainName.com/blah/home
 
 app.use('/', require('./routes/index'));
-app.use('/animals', require('./routes/animals/animals'));
-
+app.use('/animals', require('./routes/animals'));
+app.use('/locations', require('./routes/locations'));
+app.use('/', require('./routes/authroutes'));
 
 // ==============================================
 

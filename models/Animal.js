@@ -3,32 +3,40 @@ const { Schema, model } = mongoose;
 
 const animalSchema = new Schema ({
     name: String,
-    isMale: {
-        type: Boolean,
-        default: false
+    species: String,
+    sex: {
+        type: String,
+        enum: ['Male', 'Female']
     },
-    isFemale: {
-        type: Boolean,
-        default: false
-    },
+
     available: Boolean,
     color: { 
         type: String,
-        default:'Black',
-        enum: ['Black', 'Gray', 'White', 'Orange', 'Pink']
     },
-    siblings: {type: [{type: Schema.Types.ObjectId, ref: 'Animal'}]},
+
+    siblings: {
+        type: [
+            {
+                type: Schema.Types.ObjectId, 
+                ref: 'Animal'
+                // the ref makes it so .populate knows which model to look at 
+            }
+    ]},
+
     aggressive: {
         type: Boolean, 
         default: false
     }, 
-    petType: {
-        type: String,
-        enum: ['Cat', 'Dog', 'Gangster Hamster', 'Parot', 'Snake']
+
+    vaccinated: {
+        type: Boolean,
+        default: false
     }
+    
 }, {
     timestamps: true
 })
 
 const Animal = model('Animal', animalSchema);
+// by putting 'Animal' as the first argument here it tells mongo DB to create a collection called animals 
 module.exports = Animal;

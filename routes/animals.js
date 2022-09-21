@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Animal = require('../../models/Animal');
+const Animal = require('../models/Animal');
 
 // *** A Form with a post method will return the ifno from the form in the req.body
 // *** A Form with a get method will return the info 
@@ -10,9 +10,13 @@ router.post('/create', (req, res, next) => {
     console.log({req, body: req.body})
     
     const animalToCreate = {
-        ...req.body,
-        isMale: !!req.body.isMale,
-        isFemale: !!req.body.isFemale
+        name: req.body.name,
+        species: req.body.species,
+        color: req.body.color,
+        sex: req.body.sex,
+        aggressive: !!req.body.aggressive,
+        vaccinated: !!req.body.vaccinated,
+        available: !!req.body.available
     }
 
     // console.log({body: req.body, animalToCreate})
@@ -56,4 +60,42 @@ router.get('/details/:animalId', (req, res, nect) => {
     }).catch(err => {console.log({err})})
 })
 
+router.get('/edit/:animalId', (req, res, nect) => {
+    console.log({params: req.params.animalId});
+
+    Animal.findById(req.params.animalId).then(animalFromDb => {
+        console.log({animalFromDb});
+
+        res.render('animals/edit', animalFromDb)
+    }).catch(err => {console.log({err})})
+})
+
+router.post('/update/:id', (req,res,next) => {
+    Animal.findByIdAndUpdate(req.params.id, {
+        name: req.body.name,
+        species: req.body.species,
+        color: req.body.color,
+        sex: req.body.sex,
+        aggressive: !!req.body.aggressive,
+        vaccinated: !!req.body.vaccinated,
+        available: !!req.body.available
+    }).then(()=> {
+
+        res.redirect('/animals/details/'+req.params.id)
+
+    }).catch((err) => {
+        console.log(err);
+    })
+})
+
+router.post('/:id/delete', (req,res,next) => {
+
+    Animal.findByIdAndRemove(req.params.id)
+    .then((response)=> {
+        res.redirect('/animals')
+    })
+    .catch((err)=>{
+        console.log(err)
+    })
+})
 module.exports = router;
