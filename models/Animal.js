@@ -6,7 +6,7 @@ const animalSchema = new Schema ({
     species: String,
     sex: {
         type: String,
-        enum: ['Male', 'Female']
+        enum: ['male', 'female']
     },
 
     available: Boolean,

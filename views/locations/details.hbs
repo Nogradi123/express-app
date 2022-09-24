@@ -12,8 +12,9 @@
 {{#each location.animals}}
 <div>
     {{name}} - {{species}}
+
+    <a href="/animals/details/{{this.id}}"></a>
 </div>
 {{/each}}
 
 
-<a href="/locations/{{location.id}}/addAnimals">Add Animals to This Location</a>

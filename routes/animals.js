@@ -31,21 +31,28 @@ router.post('/create', (req, res, next) => {
 })
 
 // Read Route
-router.get('/', (req, res, next) => {
+router.get('/available/:sort', (req, res, next) => {
     console.log({query: req.query, params: req.params});
-
-    Animal.find()
+    let sortBy;
+    if(req.params.sort === "recent"){
+        sortBy = -1;
+    } else {
+        sortBy = 1;
+    }
+    Animal.find().sort({createdAt: sortBy})
     .then((animalsFromDb) => {
         console.log({animalsFromDb})
 
         data = {
-            animals: animalsFromDb
+            animals: animalsFromDb,
+            recent: req.params.sort === "recent" ? true : false
         }
 
         res.render('animals/list', data);
     })
     .catch(err => {
         console.log({err})
+        next(err);
     })
 })
 

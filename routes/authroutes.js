@@ -44,7 +44,7 @@ router.get('/login', (req, res, next)=>{
           console.log("found user", resultFromDB);
           req.session.currentlyLoggedIn = resultFromDB;
           console.log(req.session);
-          res.redirect('/');
+          res.redirect('/profile');
           return;
         } else {
           res.redirect('/login');
@@ -74,7 +74,42 @@ router.get('/login', (req, res, next)=>{
   })
   
   
-    
+  router.get('/change-password', (req, res, next)=>{
+    res.render("auth/changepassword", {theUser: req.session.currentlyLoggedIn});
+  })
+  
+  
+  router.post('/new-password', (req, res, next)=>{
+  
+    if(req.body.newpass !== req.body.confirmnewpass){
+      res.redirect("/profile")
+      // need to show an error message here but cant yet
+    }
+  
+    User.findById(req.session.currentlyLoggedIn._id)
+    .then(resultFromDB => {
+       if (bcryptjs.compareSync(req.body.oldpass, resultFromDB.password)) {
+        const saltRounds = 12;
+        bcryptjs
+        .genSalt(saltRounds)
+        .then(salt => bcryptjs.hash(req.body.newpass, salt))
+        .then(hashedPassword => {
+          
+          User.findByIdAndUpdate(req.session.currentlyLoggedIn._id, {
+            password: hashedPassword
+          })
+          .then(()=>{
+            res.redirect('/profile');
+  
+          })
+        })
+          .catch((err)=>{
+            next(err);
+          })
+    }
+  })
+  })
+  
 
 
 module.exports = router;
