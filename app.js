@@ -2,8 +2,8 @@ const express = require('express');
 const app = express ();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const session = require('express-session')
-const MongoStore = require('connect-mongo')
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 const PORT = 3000;
 // const axios = require('axios');
 // variables and declarations always at the top of the file 

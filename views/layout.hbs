@@ -4,11 +4,57 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Iron Adoptions</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="/styles/style.css">
+    
 </head>
 <body>
-    <nav>
+    <nav class="navbar navbar-expand-sm bg-dark">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/">Iron Adoptions</a>
+    {{!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button> --}}
+      <ul class="navbar-nav">
+        {{!-- <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li> --}}
+        <li class="nav-item">
+          <a class="nav-link" href="/animals/available/recent">Animals</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/locations">Locations</a>
+        </li>
+      </ul>
+        <ul class="nav justify-content-end">
+
+            <li class="nav-item">
+            <a class="nav-link" href="/signup">Sign Up</a>
+            </li>
+            <li class="nav-item">
+                {{#unless theUser}}
+                <a class="nav-link" href="/login">Login</a>
+                {{/unless}}
+            </li>
+            <li class="nav-item">
+                {{#if theUser}}
+                    <a class="nav-link" href="/profile">Profile Page</a>
+                {{/if}}
+            </li>
+            <li class="nav-item">
+                {{#if theUser}}
+                    <form action="/logout" method="post">
+                        <button class="btn btn-danger btn-sm">Logout</button>
+                    </form>
+                {{/if}}
+            </li>
+        </ul>
+    
+  </div>
+</nav>
+
+    {{!-- <nav class="navbar bg-light">
         <a href="/">Home</a>
         <a href="/animals/available/recent">Animals</a>
         <a href="/locations">Locations</a>
@@ -25,7 +71,7 @@
         <button>Logout</button>
         </form>
         {{/if}}
-    </nav>
+    </nav> --}}
     
     <div class="fullPage">
     {{{body}}}
@@ -33,7 +79,10 @@
     </div>
 
 
-    <footer>Made with 👽 at Ironhack!</footer>
+    <footer class="footer">
+        <h4>Made at Iron Adoptions</h4>
+    </footer>
+
     <script src = '/scripts/script.js'></script>
 </body>
 </html>  

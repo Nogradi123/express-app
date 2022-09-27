@@ -1,9 +1,35 @@
+@import '~bootstrap/css/bootstrap';
+
 body {
     padding: 0;
     margin: 0;
-    background-color: #b3f0ff;
+    background-color: lightgray;
+}
+
+h2 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .fullPage {
     min-height: 90vh;
+}
+
+
+.form-control {
+    width: 16vw;
+}
+
+.navbar-brand {
+    color: lightblue;
+}
+.nav-link {
+    color: white;
 }

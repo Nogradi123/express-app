@@ -56,19 +56,23 @@
 <br>
 {{#if recent}}
 <a href="/animals/available/notRecent">
-    <button type="button">Sort By Longest Tenured</button>
+    <button type="button" class="btn btn-primary">Sort By Longest Tenured</button>
 </a>
 {{else}}
 <a href="/animals/available/recent">
-    <button type="button">Sort By Most Recent</button>
+    <button type="button" class="btn btn-primary">Sort By Most Recent</button>
 </a>
 {{/if}}
-<div class = "animals__conatiner">
-    {{#each animals}}
-        <div class = "animals__box">
-            <h3>Name: {{this.name}} </h3>
-            <h3>This Animal is a {{#if this.isMale}} Male {{else}} Female {{/if}}</h3>
-            <a href="/animals/details/{{this._id}}">See More Details Here</a>
-        </div>
-    {{/each}}
+
+
+<div class="container">
+    <div class="row">
+        {{#each animals}}
+            <div class = "col-sm">
+                <h3>Name: {{this.name}} </h3>
+                <h3>Sex: {{#if this.isMale}} Male {{else}} Female {{/if}}</h3>
+                <a href="/animals/details/{{this._id}}">See More Details Here</a>
+            </div>
+        {{/each}}
+    </div>
 </div>
